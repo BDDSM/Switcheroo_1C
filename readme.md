@@ -11,7 +11,7 @@
 Загрузка
 --------
 
-**[Скачать Switcheroo_1C тут](https://github.com/WizaXxX/Switcheroo_1C/releases)**
+**[Скачать Switcheroo_1C](https://github.com/WizaXxX/Switcheroo_1C/releases)**
 
 
 Использование
