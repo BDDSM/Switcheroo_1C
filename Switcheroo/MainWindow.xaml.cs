@@ -165,22 +165,22 @@ namespace Switcheroo
         {
             var icon = Properties.Resources.icon;
 
-            var runOnStartupMenuItem = new MenuItem("Run on Startup", (s, e) => RunOnStartup(s as MenuItem))
+            var runOnStartupMenuItem = new MenuItem("Запуск при старте", (s, e) => RunOnStartup(s as MenuItem))
             {
                 Checked = new AutoStart().IsEnabled
             };
 
             _notifyIcon = new NotifyIcon
             {
-                Text = "Switcheroo",
+                Text = "Switcheroo 1C",
                 Icon = icon,
                 Visible = true,
                 ContextMenu = new System.Windows.Forms.ContextMenu(new[]
                 {
-                    new MenuItem("Options", (s, e) => Options()),
+                    new MenuItem("Настройки", (s, e) => Options()),
                     runOnStartupMenuItem,
-                    new MenuItem("About", (s, e) => About()),
-                    new MenuItem("Exit", (s, e) => Quit())
+                    new MenuItem("О программе", (s, e) => About()),
+                    new MenuItem("Выход", (s, e) => Quit())
                 })
             };
         }
@@ -276,17 +276,17 @@ namespace Switcheroo
                 _unfilteredWindowList.Add(firstWindow);
                 foregroundWindowMovedToBottom = true;
             }
-
-            _filteredWindowList = new ObservableCollection<AppWindowViewModel>(_unfilteredWindowList);
+             
+            _filteredWindowList = new ObservableCollection<AppWindowViewModel>(_unfilteredWindowList.OrderBy(i => i.WindowTitle));
             _windowCloser = new WindowCloser();
 
             foreach (var window in _unfilteredWindowList)
             {
-                window.FormattedTitle = new XamlHighlighter().Highlight(new[] {new StringPart(window.AppWindow.Title)});
+                window.FormattedTitle = new XamlHighlighter().Highlight(new[] {new StringPart(window.WindowTitle)});
                 window.FormattedProcessTitle =
                     new XamlHighlighter().Highlight(new[] {new StringPart(window.AppWindow.ProcessTitle)});
             }
-
+            
             lb.DataContext = null;
             lb.DataContext = _filteredWindowList;
 

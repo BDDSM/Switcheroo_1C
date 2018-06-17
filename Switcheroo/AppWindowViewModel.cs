@@ -6,14 +6,51 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Switcheroo.Core;
+using System.Runtime.InteropServices;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Reflection;
 
 namespace Switcheroo
 {
     public class AppWindowViewModel : INotifyPropertyChanged, IWindowText
     {
+        [DllImport("TestDll.dll", EntryPoint = "getcmd")]
+        public static extern IntPtr getcmd(int i);
         public AppWindowViewModel(AppWindow appWindow)
         {
             AppWindow = appWindow;
+        }
+
+        private static String Get1CTitle(Process process, String Title)
+        {
+            string cmd = Marshal.PtrToStringAuto(getcmd(process.Id));
+
+            var indexIBName = cmd.IndexOf("/IBName");
+            var windowTitle = "";
+            if (indexIBName != -1)
+            {
+                var indexEnd = cmd.IndexOf(" /", indexIBName + 7);
+                var name = "";
+
+                if (indexEnd != -1)
+                {
+                    name = cmd.Substring(indexIBName + 7, indexEnd - (indexIBName + 7)).Replace("\"", "");
+                }
+                else
+                {
+                    name = cmd.Substring(indexIBName).Replace("\"", "");
+                }
+
+                windowTitle = name;
+
+            }
+            else
+            {
+                windowTitle = Title;
+            }
+            return windowTitle;
+
         }
 
         public AppWindow AppWindow { get; private set; }
@@ -22,7 +59,7 @@ namespace Switcheroo
 
         public string WindowTitle
         {
-            get { return AppWindow.Title; }
+            get { return Get1CTitle(AppWindow.Process, AppWindow.Title); }
         }
 
         public string ProcessTitle

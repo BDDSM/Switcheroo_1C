@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.Drawing;
+using System.Management;
 using ManagedWinapi.Windows.Contents;
 
 namespace ManagedWinapi.Windows
@@ -354,8 +355,11 @@ namespace ManagedWinapi.Windows
             EnumWindows(new EnumWindowsProc(delegate(IntPtr hwnd, IntPtr lParam)
             {
                 SystemWindow tmp = new SystemWindow(hwnd);
-                if (predicate(tmp))
-                    wnds.Add(tmp);
+                if (tmp.ClassName.IndexOf("V8TopLevelFrame") != -1)
+                {
+                    if (predicate(tmp))
+                        wnds.Add(tmp);
+                }
                 return 1;
             }), new IntPtr(0));
             return wnds.ToArray();
