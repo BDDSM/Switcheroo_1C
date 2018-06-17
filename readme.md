@@ -22,7 +22,7 @@ Action                               | Shortcut        | Remarks
 ------------------------------------ | --------------- | ----------
 Активация Switcheroo_1C              | `Alt + Space`   | Сочетание клавиш можно изменить в _Options_
 Активация Switcheroo_1C              | `Alt + Tab`     | Только если активирована специальная _Options_
-_When Switcheroo is open_            |                 |
+_Когда Switcheroo_1C активен_        |                 |
 Переключиться на выбранное окно      | `Enter`         |
 Закрыть выбранное окно               | `Ctrl + W`      |
 Закрыть Switcheroo_1C                | `Esc`           |
